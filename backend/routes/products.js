@@ -16,12 +16,14 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @route   GET api/products/:id
-// @desc    Get product by ID
+// @route   GET api/products/barcode/:code
+// @desc    Get product by barcode
 // @access  Public
-router.get('/:id', async (req, res) => {
+router.get('/barcode/:code', async (req, res) => {
   try {
-    const product = await Product.findByPk(req.params.id);
+    const product = await Product.findOne({
+      where: { barcode: req.params.code }
+    });
     
     if (!product) {
       return res.status(404).json({ msg: 'Product not found' });
@@ -34,14 +36,12 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// @route   GET api/products/barcode/:code
-// @desc    Get product by barcode
+// @route   GET api/products/:id
+// @desc    Get product by ID
 // @access  Public
-router.get('/barcode/:code', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    const product = await Product.findOne({
-      where: { barcode: req.params.code }
-    });
+    const product = await Product.findByPk(req.params.id);
     
     if (!product) {
       return res.status(404).json({ msg: 'Product not found' });
